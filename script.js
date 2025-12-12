@@ -1,55 +1,33 @@
-// Mouse-following cursor
-const cursor = document.createElement('div');
-cursor.className = 'cursor-follow';
-document.body.appendChild(cursor);
+let joinBtn = document.getElementById("joinBtn");
+let countDisplay = document.getElementById("count");
 
-document.addEventListener('mousemove', (e) => {
-    cursor.style.left = `${e.clientX - 10}px`;
-    cursor.style.top = `${e.clientY - 10}px`;
-});
+// Load stored data
+let count = localStorage.getItem("joinedCount") 
+           ? parseInt(localStorage.getItem("joinedCount")) 
+           : 0;
 
-// Load initial data from localStorage
-let memberCount = parseInt(localStorage.getItem('memberCount')) || 0;
-let feedPosts = JSON.parse(localStorage.getItem('feedPosts')) || [
-    {
-        avatar: 'https://via.placeholder.com/50',
-        author: 'Tharunram',
-        timestamp: new Date().toLocaleString(),
-        text: 'Welcome to futurespark community! Stay tuned for updates.',
-        gif: 'https://via.placeholder.com/300x150?text=Welcome+GIF',
-        likes: 5,
-        comments: ['Great start!', 'Excited to be here!']
-    },
-    {
-        avatar: 'https://via.placeholder.com/50',
-        author: 'Community Member',
-        timestamp: new Date(Date.now() - 86400000).toLocaleString(),
-        text: 'Just joined! Loving the vibe.',
-        gif: null,
-        likes: 3,
-        comments: ['Welcome!', 'Awesome!']
-    },
-    {
-        avatar: 'https://via.placeholder.com/50',
-        author: 'Another User',
-        timestamp: new Date(Date.now() - 172800000).toLocaleString(),
-        text: 'Check out this cool project!',
-        gif: 'https://via.placeholder.com/300x150?text=Project+GIF',
-        likes: 7,
-        comments: ['Looks amazing!', 'Inspired!']
+let alreadyJoined = localStorage.getItem("userJoined") === "yes";
+
+countDisplay.innerText = count;
+
+if (alreadyJoined) {
+    joinBtn.innerText = "Joined ✓";
+    joinBtn.classList.add("joined");
+    joinBtn.disabled = true;
+}
+
+joinBtn.addEventListener("click", () => {
+    if (!alreadyJoined) {
+        count++;
+        countDisplay.innerText = count;
+
+        localStorage.setItem("joinedCount", count);
+        localStorage.setItem("userJoined", "yes");
+
+        joinBtn.innerText = "Joined ✓";
+        joinBtn.classList.add("joined");
+        joinBtn.disabled = true;
+
+        alreadyJoined = true;
     }
-];
-
-// Update UI on load
-document.getElementById('member-count').querySelector('.counter').textContent = memberCount;
-renderFeed();
-
-// Hide loader after page load
-window.addEventListener('load', () => {
-    setTimeout(() => {
-        document.getElementById('loader').style.display = 'none';
-    }, 3000);
 });
-
-// Animated counter function
-function animateCounter(element

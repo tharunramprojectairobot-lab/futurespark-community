@@ -12,54 +12,136 @@
   <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>futurespark community</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Futurespark Community</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+        color: white;
+        overflow-x: hidden;
+    }
+
+    .hero {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+        animation: fadeIn 2s ease;
+    }
+
+    .hero h1 {
+        font-size: 45px;
+        font-weight: bold;
+        animation: slideDown 1.5s ease;
+    }
+
+    .hero p {
+        font-size: 20px;
+        opacity: 0.8;
+        animation: fadeIn 2.5s ease;
+    }
+
+    button {
+        margin-top: 25px;
+        padding: 14px 40px;
+        border: none;
+        font-size: 20px;
+        border-radius: 40px;
+        cursor: pointer;
+        background: #ff0080;
+        color: white;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        transform: scale(1.1);
+        background: #ff33aa;
+    }
+
+    .count-box {
+        margin-top: 20px;
+        font-size: 22px;
+        padding: 15px 30px;
+        background: rgba(255,255,255,0.08);
+        border-radius: 15px;
+        backdrop-filter: blur(5px);
+        animation: fadeIn 3s ease;
+    }
+
+    @keyframes fadeIn {
+        from {opacity: 0;}
+        to {opacity: 1;}
+    }
+
+    @keyframes slideDown {
+        from {transform: translateY(-50px); opacity: 0;}
+        to {transform: translateY(0); opacity: 1;}
+    }
+
+    .joined {
+        background: #00ff87 !important;
+        cursor: not-allowed;
+    }
+</style>
 </head>
+
 <body>
-    <div id="loader" class="loader">
-        <div class="spinner"></div>
-        <p>Loading futurespark community...</p>
+
+<div class="hero">
+    <h1>Welcome to Futurespark Community 🚀</h1>
+    <p>Join the fastest growing digital community by Tharunram.</p>
+
+    <button id="joinBtn">Join Now</button>
+
+    <div class="count-box">
+        Members Joined: <span id="count">0</span>
     </div>
+</div>
 
-    <div class="particles">
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-    </div>
+<script>
+    let joinBtn = document.getElementById("joinBtn");
+    let countDisplay = document.getElementById("count");
 
-    <header class="hero parallax">
-        <div class="hero-content">
-            <h1 class="typewriter">Welcome to futurespark community</h1>
-            <p>Created by Tharunram | <a href="https://sites.google.com/view/futuresparkcommunity" target="_blank"><i class="fas fa-external-link-alt"></i> Visit Our Site</a></p>
-        </div>
-        <div class="morph-shape"></div>
-    </header>
+    // Load stored data
+    let count = localStorage.getItem("joinedCount") 
+               ? parseInt(localStorage.getItem("joinedCount")) 
+               : 0;
 
-    <main>
-        <section id="join-section" class="card scroll-fade">
-            <h2><i class="fas fa-users"></i> Join Us!</h2>
-            <button id="join-button" class="pulse-btn elastic-btn"><i class="fas fa-rocket"></i> Join Now!</button>
-            <p id="member-count">Current Members: <span class="counter">0</span></p>
-            <div id="welcome-message" class="hidden slide-in bounce-msg"></div>
-        </section>
+    let alreadyJoined = localStorage.getItem("userJoined") === "yes";
 
-        <section id="feed-section" class="card scroll-fade">
-            <h2><i class="fas fa-rss"></i> Community Feed</h2>
-            <div id="feed" class="feed-container">
-                <!-- Posts will be dynamically added here -->
-            </div>
-        </section>
-    </main>
+    countDisplay.innerText = count;
 
-    <footer class="scroll-fade">
-        <p>&copy; 2023 futurespark community. Powered by Tharunram.</p>
-    </footer>
+    if (alreadyJoined) {
+        joinBtn.innerText = "Joined ✓";
+        joinBtn.classList.add("joined");
+        joinBtn.disabled = true;
+    }
 
-    <script src="script.js"></script>
+    joinBtn.addEventListener("click", () => {
+        if (!alreadyJoined) {
+            count++;
+            countDisplay.innerText = count;
+
+            localStorage.setItem("joinedCount", count);
+            localStorage.setItem("userJoined", "yes");
+
+            joinBtn.innerText = "Joined ✓";
+            joinBtn.classList.add("joined");
+            joinBtn.disabled = true;
+
+            alreadyJoined = true;
+        }
+    });
+</script>
+
 </body>
 </html>
     <script  src="./script.js"></script>
